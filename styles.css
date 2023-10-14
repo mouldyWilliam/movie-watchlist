@@ -1,0 +1,17 @@
+#movie-container {
+    display: flex;
+    gap: 24px;
+}
+
+#poster-container img {
+    width: 128px;
+}
+
+#movie-details-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#movie-details-container button {
+    width: 80px;
+}
