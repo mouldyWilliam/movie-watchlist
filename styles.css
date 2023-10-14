@@ -10,8 +10,5 @@
 #movie-details-container {
     display: flex;
     flex-direction: column;
-}
-
-#movie-details-container button {
-    width: 80px;
+    align-items: flex-start;
 }
