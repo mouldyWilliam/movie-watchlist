@@ -41,21 +41,38 @@ function renderSearchedMovies(moviesImdbIdArray) {
     }
 }
 
-let moviesArray = [];
+let watchlistArray = [];
 
 document.addEventListener("click", function(e){
     
     if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Add") {
-        moviesArray.push(e.target.dataset.imdbid);
+        watchlistArray.push(e.target.dataset.imdbid);
         document.getElementById(e.target.dataset.imdbid).textContent = "Remove";
-        console.log(moviesArray);
+        console.log(watchlistArray);
     }
     else if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Remove") {
-        let filteredArray = moviesArray.filter(function(movie){
+        let filteredArray = watchlistArray.filter(function(movie){
             return movie != e.target.dataset.imdbid;
         })
-        moviesArray = filteredArray;
+        watchlistArray = filteredArray;
         document.getElementById(e.target.dataset.imdbid).textContent = "Add";
-        console.log(moviesArray);
+        console.log(watchlistArray);
     }
 })
+
+// document.addEventListener("click", function(e) {
+//     if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Add To Watchlist") {
+//         watchlistArray.push(e.target.dataset.imdbid)
+//         localStorage.setItem("watchlist", JSON.stringify(watchlistArray));
+//         document.getElementById(e.target.dataset.imdbid).textContent = "Remove"; 
+//     }
+//     else if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Remove") {
+//         document.getElementById(e.target.dataset.imdbid).textContent = "Add To Watchlist"; 
+//         let arrayFromLocalStorage = JSON.parse(localStorage.getItem("watchlist"));
+//         let filteredArray = arrayFromLocalStorage.filter(function(item){
+//             return item != e.target.dataset.imdbid;
+//         })
+//         watchlistArray = filteredArray;
+//         localStorage.setItem("watchlist", JSON.stringify(filteredArray));
+//     }
+// })
