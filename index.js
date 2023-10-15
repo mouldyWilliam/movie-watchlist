@@ -3,7 +3,9 @@ const searchButton = document.getElementById("search-button");
 const moviesContainer = document.getElementById("movies-container");
 
 let watchlistArray = [];
+let btnBehaviour = "";
 
+// Check to see if there are any movie ids in local storage
 if (localStorage.getItem('watchlist')) {
     watchlistArray = JSON.parse(localStorage.getItem('watchlist'));
     console.log(`We have this local storage ${watchlistArray}`);
@@ -34,6 +36,11 @@ function renderSearchedMovies(moviesImdbIdArray) {
         fetch(`https://www.omdbapi.com/?apikey=50bcaecd&i=${movieImdbId}`)
             .then(res => res.json())
             .then(data => {
+                if (watchlistArray.includes(movieImdbId)) {
+                    btnBehaviour = "Remove";
+                } else {
+                    btnBehaviour = "Add";
+                }
                 moviesContainer.innerHTML += `
                 <div id="movie-container">
                     <div id="poster-container">
@@ -41,7 +48,7 @@ function renderSearchedMovies(moviesImdbIdArray) {
                     </div>
                     <div id="movie-details-container">
                         <h3>${data.Title}</h3>
-                        <button id="${data.imdbID}" data-imdbid="${data.imdbID}">Add</button>
+                        <button id="${data.imdbID}" data-imdbid="${data.imdbID}">${btnBehaviour}</button>
                         <p3>${data.Plot}</p3>
                     </div>
                 </div>
