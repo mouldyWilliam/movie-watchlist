@@ -2,6 +2,16 @@ const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const moviesContainer = document.getElementById("movies-container");
 
+let watchlistArray = [];
+
+if (localStorage.getItem('watchlist')) {
+    watchlistArray = JSON.parse(localStorage.getItem('watchlist'));
+    console.log(`We have this local storage ${watchlistArray}`);
+} else {
+    watchlistArray = [];
+    console.log("We have nothing in local storage");
+}
+
 searchButton.addEventListener("click", function () {
     moviesContainer.innerHTML = "";
     fetch(`https://www.omdbapi.com/?apikey=50bcaecd&s=${searchInput.value}`)
@@ -41,12 +51,10 @@ function renderSearchedMovies(moviesImdbIdArray) {
     }
 }
 
-let watchlistArray = [];
-
 document.addEventListener("click", function(e){
-    
     if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Add") {
         watchlistArray.push(e.target.dataset.imdbid);
+        localStorage.setItem("watchlist", JSON.stringify(watchlistArray));
         document.getElementById(e.target.dataset.imdbid).textContent = "Remove";
         console.log(watchlistArray);
     }
@@ -55,24 +63,8 @@ document.addEventListener("click", function(e){
             return movie != e.target.dataset.imdbid;
         })
         watchlistArray = filteredArray;
+        localStorage.setItem("watchlist", JSON.stringify(filteredArray));
         document.getElementById(e.target.dataset.imdbid).textContent = "Add";
         console.log(watchlistArray);
     }
 })
-
-// document.addEventListener("click", function(e) {
-//     if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Add To Watchlist") {
-//         watchlistArray.push(e.target.dataset.imdbid)
-//         localStorage.setItem("watchlist", JSON.stringify(watchlistArray));
-//         document.getElementById(e.target.dataset.imdbid).textContent = "Remove"; 
-//     }
-//     else if (e.target.dataset.imdbid && document.getElementById(e.target.dataset.imdbid).textContent == "Remove") {
-//         document.getElementById(e.target.dataset.imdbid).textContent = "Add To Watchlist"; 
-//         let arrayFromLocalStorage = JSON.parse(localStorage.getItem("watchlist"));
-//         let filteredArray = arrayFromLocalStorage.filter(function(item){
-//             return item != e.target.dataset.imdbid;
-//         })
-//         watchlistArray = filteredArray;
-//         localStorage.setItem("watchlist", JSON.stringify(filteredArray));
-//     }
-// })
